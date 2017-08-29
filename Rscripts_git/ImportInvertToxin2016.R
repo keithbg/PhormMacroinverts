@@ -26,27 +26,23 @@ pathway_2016 <- "/Users/KeithBG/Documents/UC Berkeley/2016 Summer Research/Phorm
   part.tox <- read.table(filename, header= TRUE, sep= "\t")
   part.tox <- part.tox[complete.cases(part.tox), ]
 
-## Subset only the Phormidium and periphyton rows
-  cob.tox <- part.tox[c(1:24, 42:53), ]
-  rm(part.tox)
-
 #### Format toxin columns
 ## Multiply MCY concentrations by 4 to account for subsampling
   # 6 mL total; 3 mL subsample for SPE cleaning;
   # 2mL produced after SPE cleaning; 1 mL subsample put into LC-MS vial
   # (6/3) * (2/1) = 4
-  cob.tox[, which(names(cob.tox) %in% c("LR", "RR", "YR", "LA"))] <- 4*cob.tox[, which(names(cob.tox) %in% c("LR", "RR", "YR", "LA"))]
+  part.tox[, which(names(part.tox) %in% c("LR", "RR", "YR", "LA"))] <- 4*part.tox[, which(names(part.tox) %in% c("LR", "RR", "YR", "LA"))]
 
 ## Multiply ATX concentration by 6 to account for subsampling
   # 6mL total with 1mL subsample into LC-MS vial: 6/1 = 6
-  cob.tox[, which(names(cob.tox) %in% c("ATX"))] <- 6*cob.tox[, which(names(cob.tox) %in% c("ATX"))]
+  part.tox[, which(names(part.tox) %in% c("ATX"))] <- 6*part.tox[, which(names(part.tox) %in% c("ATX"))]
 
 ## Inv samples were extracted in 2ml 50% MeOH and 1 mL subsamples for both ATX and MCY
   # 2/1= 2
   inv.tox[, which(names(inv.tox) %in% c("ATX", "LR", "RR", "YR", "LA"))] <- 2*inv.tox[, which(names(inv.tox) %in% c("ATX", "LR", "RR", "YR", "LA"))]
 
 ## Combine inv and cob toxins
-  all.tox <- rbind(inv.tox, cob.tox)
+  all.tox <- rbind(inv.tox, part.tox)
   names(all.tox)[1] <- "UCSC_ID"
 
 
